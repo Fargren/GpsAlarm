@@ -27,8 +27,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testAddAlarm() {
         FakePresenter mockPresenter = getFakePresenter();
-        Alarm alarm = new Alarm();
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        Alarm alarm = addEmptyAlarm();
         assertEquals(alarm, mockPresenter.addedAlarm);
     }
 
@@ -42,8 +41,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void testShowOneAlarmShowsOneAlarm() {
         FakePresenter mockPresenter = getFakePresenter();
 
-        Alarm alarm = new Alarm();
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        addEmptyAlarm();
 
         interactors.getShowAlarmInteractor().show();
         assertEquals(1, mockPresenter.shownAlarms.size());
@@ -52,11 +50,16 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void testShowOneAlarmShowsCorrectAlarm() {
         FakePresenter mockPresenter = getFakePresenter();
 
-        Alarm alarm = new Alarm();
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        Alarm alarm = addEmptyAlarm();
 
         interactors.getShowAlarmInteractor().show();
         assertEquals(alarm, mockPresenter.shownAlarms.get(0));
+    }
+
+    private Alarm addEmptyAlarm() {
+        Alarm alarm = new Alarm();
+        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        return alarm;
     }
 
     public void testUpdateEmptyInteractor() {
