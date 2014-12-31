@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import epsz.alarmapp.Alarm;
 import epsz.alarmapp.Presenter;
-import epsz.alarmapp.Time;
 import epsz.alarmapp.TimeTrigger;
 
 public class UpdateStateInteractor {
