@@ -6,7 +6,6 @@ import android.test.ApplicationTestCase;
 import java.util.List;
 
 import epsz.alarmapp.Interactors.Interactors;
-import epsz.alarmapp.Interactors.UpdateStateInteractor;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -56,31 +55,35 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertEquals(alarm, mockPresenter.shownAlarms.get(0));
     }
 
-    private Alarm addEmptyAlarm() {
+    public void testTimeAlarmRingsAtTime() {
+        FakePresenter mockPresenter = getFakePresenter();
+
+        createAlarmAt(9, 00);
+
+        updateTimeTo(9, 00);
+        assertTrue(mockPresenter.ringAlarmCalled);
+    }
+
+    public void testTimeAlarmDoesntRingsOutOfTime() {
+        FakePresenter mockPresenter = getFakePresenter();
+
+        createAlarmAt(8, 00);
+
+        updateTimeTo(9, 00);
+        assertFalse(mockPresenter.ringAlarmCalled);
+    }
+
+    private void updateTimeTo(int hour, int minutes) {
+        TimeTrigger activeTrigger = new TimeTrigger(hour, minutes);
+        interactors.getUpdateInteractor().updateTo(activeTrigger);
+    }
+
+    private void createAlarmAt(int hour, int minutes) {
         Alarm alarm = new Alarm();
+        TimeTrigger passiveTrigger = new TimeTrigger(hour, minutes);
+        alarm.addTrigger(passiveTrigger);
         interactors.getAddAlarmInteractor().addAlarm(alarm);
-        return alarm;
     }
-
-    public void testUpdateEmptyInteractor() {
-        FakePresenter stubPresenter = new FakePresenter();
-        UpdateStateInteractor updateInteractor = new UpdateStateInteractor(stubPresenter);
-        assertFalse(stubPresenter.ringAlarmCalled);
-    }
-
-    /*public void testTimeAlarmRings() {
-        FakePresenter mockPresenter = new FakePresenter();
-        UpdateStateInteractor updateInteractor = new UpdateStateInteractor(mockPresenter);
-
-        Alarm alarm = new Alarm();
-        TimeTrigger trigger = new TimeTrigger(8, 45);
-        alarm.addTrigger(trigger);
-        interactor.addAlarm(alarm);
-
-        Time time = new Time(8, 45);
-        updateInteractor.updateTo(time);
-        Assert.assertTrue(mockPresenter.ringAlarmCalled);
-    }*/
 
     private FakePresenter getFakePresenter() {
         FakePresenter presenter = new FakePresenter();
@@ -91,6 +94,13 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     private void preparePresenters(FakePresenter presenter) {
         interactors.getAddAlarmInteractor().setPresenter(presenter);
         interactors.getShowAlarmInteractor().setPresenter(presenter);
+        interactors.getUpdateInteractor().setPresenter(presenter);
+    }
+
+    private Alarm addEmptyAlarm() {
+        Alarm alarm = new Alarm();
+        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        return alarm;
     }
 
     private class FakePresenter implements Presenter {
