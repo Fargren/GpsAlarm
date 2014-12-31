@@ -8,12 +8,14 @@ public class Interactors {
     private AddAlarmInteractor addAlarmInteractor;
     private ShowAlarmsInteractor showAlarmInteractor;
     private UpdateStateInteractor updateInteractor;
+    public StopAlarmInteractor stopAlarmInteractor;
 
     public Interactors() {
         ArrayList<Alarm> alarms = new ArrayList<>();
         createAddAlarmInteractor(alarms);
         createShowAlarmsInteractor(alarms);
         createUpdateStateInteractor(alarms);
+        this.stopAlarmInteractor = new StopAlarmInteractor();
     }
 
     private void createUpdateStateInteractor(ArrayList<Alarm> alarms) {

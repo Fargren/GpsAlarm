@@ -9,4 +9,6 @@ public interface Presenter {
     void addAlarm(Alarm alarm);
 
     void showAlarms(List<Alarm> alarms);
+
+    void stopAlarm();
 }
