@@ -1,13 +1,13 @@
 package epsz.alarmapp;
 
 public class Alarm {
-    TimeTrigger trigger;
+    Trigger passiveTrigger;
 
-    public void addTrigger(TimeTrigger trigger) {
-        this.trigger = trigger;
+    public void addTrigger(Trigger trigger) {
+        this.passiveTrigger = trigger;
     }
 
-    public boolean shouldRing(TimeTrigger time) {
-        return time.matches(trigger);
+    public boolean shouldRing(Trigger activeTrigger) {
+        return activeTrigger.matches(passiveTrigger);
     }
 }

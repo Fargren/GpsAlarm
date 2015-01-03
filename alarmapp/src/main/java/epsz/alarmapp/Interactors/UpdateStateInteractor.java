@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import epsz.alarmapp.Alarm;
 import epsz.alarmapp.Presenter;
-import epsz.alarmapp.TimeTrigger;
+import epsz.alarmapp.Trigger;
 
 public class UpdateStateInteractor {
 
@@ -15,7 +15,7 @@ public class UpdateStateInteractor {
         this.alarms = alarms;
     }
 
-    public void updateTo(TimeTrigger time) {
+    public void updateTo(Trigger time) {
         for (Alarm alarm : alarms) {
             if (alarm.shouldRing(time)) {
                 presenter.ringAlarm();

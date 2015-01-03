@@ -20,7 +20,7 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         assertEquals(alarm, mockPresenter.addedAlarm);
     }
 
-    protected void createAlarmAt(int hour, int minutes) {
+    protected void createAlarmAtTime(int hour, int minutes) {
         Alarm alarm = new Alarm();
         TimeTrigger passiveTrigger = new TimeTrigger(hour, minutes);
         alarm.addTrigger(passiveTrigger);
@@ -50,6 +50,13 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
     protected void setUp() throws Exception {
         super.setUp();
         interactors = new Interactors();
+    }
+
+    protected void createAlarmAtLocation(double latitude, double longitude, double radius) {
+        Alarm alarm = new Alarm();
+        LocationTrigger trigger = new LocationTrigger(latitude, longitude, radius);
+        alarm.addTrigger(trigger);
+        interactors.getAddAlarmInteractor().addAlarm(alarm);
     }
 
     protected class FakePresenter implements Presenter {

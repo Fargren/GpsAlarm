@@ -1,6 +1,6 @@
 package epsz.alarmapp;
 
-public class TimeTrigger {
+public class TimeTrigger extends Trigger {
     private int hour;
     private int minutes;
 
@@ -9,7 +9,12 @@ public class TimeTrigger {
         this.minutes = minutes;
     }
 
-    public boolean matches(TimeTrigger trigger) {
-        return this.hour == trigger.hour && this.minutes == trigger.minutes;
+    @Override
+    public boolean matches(Trigger trigger) {
+        if (trigger instanceof TimeTrigger) {
+            TimeTrigger timeTrigger = (TimeTrigger) trigger;
+            return this.hour == timeTrigger.hour && this.minutes == timeTrigger.minutes;
+        }
+        return false;
     }
 }

@@ -1,11 +1,6 @@
 package epsz.alarmapp;
 
 import android.app.Application;
-import android.test.ApplicationTestCase;
-
-import java.util.List;
-
-import epsz.alarmapp.Interactors.Interactors;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -44,7 +39,7 @@ public class ApplicationTest extends AlarmsTest {
     public void testTimeAlarmRingsAtTime() {
         FakePresenter mockPresenter = getFakePresenter();
 
-        createAlarmAt(9, 00);
+        createAlarmAtTime(9, 00);
 
         updateTimeTo(9, 00);
         assertTrue(mockPresenter.ringAlarmCalled);
@@ -53,7 +48,7 @@ public class ApplicationTest extends AlarmsTest {
     public void testTimeAlarmDoesNotRingOutOfTime() {
         FakePresenter mockPresenter = getFakePresenter();
 
-        createAlarmAt(8, 00);
+        createAlarmAtTime(8, 00);
 
         updateTimeTo(9, 00);
         assertFalse(mockPresenter.ringAlarmCalled);
@@ -64,6 +59,30 @@ public class ApplicationTest extends AlarmsTest {
 
         interactors.stopAlarmInteractor.stop();
         assertTrue(mockPresenter.stopAlarmCalled);
+    }
+
+    public void testLocationAlarmRingsAtLocation() {
+        FakePresenter mockPresenter = getFakePresenter();
+
+        createAlarmAtLocation(50.5, 50.5, 0.001);
+
+        updateLocationTo(50.5001, 50.5, 0.001);
+        assertTrue(mockPresenter.ringAlarmCalled);
+    }
+
+
+    public void testLocationAlarmDoesNotRingOutsideLocation() {
+        FakePresenter mockPresenter = getFakePresenter();
+
+        createAlarmAtLocation(50.5, 50.5, 0.001);
+
+        updateLocationTo(50.5, -50.5, 0.001);
+        assertFalse(mockPresenter.ringAlarmCalled);
+    }
+
+    private void updateLocationTo(double longitude, double latitude, double radius) {
+        LocationTrigger activeTrigger = new LocationTrigger(latitude, longitude, radius);
+        interactors.getUpdateInteractor().updateTo(activeTrigger);
     }
 
     private void updateTimeTo(int hour, int minutes) {
