@@ -1,5 +1,7 @@
 package epsz.alarmapp;
 
+import epsz.alarmapp.Interactors.GeoCircle;
+
 public class LocationTrigger extends Trigger {
     private final double latitude;
     private final double longitude;
@@ -9,6 +11,12 @@ public class LocationTrigger extends Trigger {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+    }
+
+    public LocationTrigger(GeoCircle area) {
+        this.latitude = area.latitude;
+        this.longitude = area.longitude;
+        this.radius = area.radius;
     }
 
     @Override
@@ -22,5 +30,8 @@ public class LocationTrigger extends Trigger {
             return distanceSquared < maxDistance * maxDistance;
         }
         return false;
+    }
+
+    public static class InvalidGeoAreaException extends RuntimeException {
     }
 }

@@ -5,7 +5,9 @@ import android.test.ApplicationTestCase;
 
 import java.util.List;
 
+import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Interactors.Interactors;
+import epsz.alarmapp.requests.HourTime;
 
 public class AlarmsTest extends ApplicationTestCase<Application> {
     protected Interactors interactors;
@@ -14,17 +16,9 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         super(applicationClass);
     }
 
-    public void testAddAlarm() {
-        FakePresenter mockPresenter = getFakePresenter();
-        Alarm alarm = addEmptyAlarm();
-        assertEquals(alarm, mockPresenter.addedAlarm);
-    }
-
     protected void createAlarmAtTime(int hour, int minutes) {
-        Alarm alarm = new Alarm();
-        TimeTrigger passiveTrigger = new TimeTrigger(hour, minutes);
-        alarm.addTrigger(passiveTrigger);
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        HourTime time = new HourTime(hour, minutes);
+        interactors.getAddAlarmInteractor().addAlarmAtTime(time);
     }
 
     protected FakePresenter getFakePresenter() {
@@ -40,12 +34,6 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         interactors.stopAlarmInteractor.setPresenter(presenter);
     }
 
-    protected Alarm addEmptyAlarm() {
-        Alarm alarm = new Alarm();
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
-        return alarm;
-    }
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -53,10 +41,8 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
     }
 
     protected void createAlarmAtLocation(double latitude, double longitude, double radius) {
-        Alarm alarm = new Alarm();
-        LocationTrigger trigger = new LocationTrigger(latitude, longitude, radius);
-        alarm.addTrigger(trigger);
-        interactors.getAddAlarmInteractor().addAlarm(alarm);
+        GeoCircle area = new GeoCircle(latitude, longitude, radius);
+        interactors.getAddAlarmInteractor().addAlarmAtLocation(area);
     }
 
     protected class FakePresenter implements Presenter {
@@ -64,10 +50,16 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         public Alarm addedAlarm;
         public List<Alarm> shownAlarms;
         public boolean stopAlarmCalled;
+        public GeoCircle lastAlarmCircle;
 
         @Override
         public void ringAlarm() {
             ringAlarmCalled = true;
+        }
+
+        @Override
+        public void addAlarmAtLocation(GeoCircle location) {
+            lastAlarmCircle = location;
         }
 
         @Override

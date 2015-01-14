@@ -15,9 +15,10 @@ public class UpdateStateInteractor {
         this.alarms = alarms;
     }
 
-    public void updateTo(Trigger time) {
+    public void updateTo(Trigger trigger) {
         for (Alarm alarm : alarms) {
-            if (alarm.shouldRing(time)) {
+            alarm.updateTo(trigger);
+            if (alarm.isRinging) {
                 presenter.ringAlarm();
             }
         }
