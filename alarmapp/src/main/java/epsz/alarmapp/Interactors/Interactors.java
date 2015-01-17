@@ -24,7 +24,6 @@ public class Interactors {
 
     private void createAddAlarmInteractor(ArrayList<Alarm> alarms) {
         AddAlarmInteractor interactor = new AddAlarmInteractor();
-        interactor.setAlarms(alarms);
         this.addAlarmInteractor = interactor;
     }
 

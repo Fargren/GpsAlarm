@@ -40,9 +40,10 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         interactors = new Interactors();
     }
 
-    protected void createAlarmAtLocation(double latitude, double longitude, double radius) {
+    protected GeoCircle alarmAtLocation(double latitude, double longitude, double radius) {
         GeoCircle area = new GeoCircle(latitude, longitude, radius);
         interactors.getAddAlarmInteractor().addAlarmAtLocation(area);
+        return area;
     }
 
     protected class FakePresenter implements Presenter {

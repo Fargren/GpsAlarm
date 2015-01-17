@@ -1,11 +1,13 @@
 package epsz.alarmapp.Interactors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import epsz.alarmapp.Alarm;
 import epsz.alarmapp.LocationTrigger;
 import epsz.alarmapp.Presenter;
 import epsz.alarmapp.TimeTrigger;
+import epsz.alarmapp.Trigger;
 import epsz.alarmapp.requests.HourTime;
 
 /**
@@ -13,33 +15,31 @@ import epsz.alarmapp.requests.HourTime;
  */
 public class AddAlarmInteractor implements AlarmAdder {
     private Presenter presenter;
-    private List<Alarm> alarms;
+    public static List<Trigger> triggers;
 
-    public void setAlarms(List<Alarm> alarms) {
-        this.alarms = alarms;
-    }
 
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
     }
 
-    AddAlarmInteractor() {
-
-    }
-
     public void addAlarmAtTime(HourTime time) {
-        TimeTrigger trigger = new TimeTrigger(time);
+        /*TimeTrigger trigger = new TimeTrigger(time);
         Alarm alarm = new Alarm();
         alarm.addTrigger(trigger);
         alarms.add(alarm);
 
-        this.presenter.addAlarm(alarm);
+        this.presenter.addAlarm(alarm);*/
     }
 
     public void addAlarmAtLocation(GeoCircle area) {
         if (area == null) {
             return;
         }
+
+        if(triggers == null)
+            triggers = new ArrayList<>();
+
+        triggers.add(new LocationTrigger(area));
         /*LocationTrigger trigger = new LocationTrigger(area);
         Alarm alarm = new Alarm();
         alarm.addTrigger(trigger);
