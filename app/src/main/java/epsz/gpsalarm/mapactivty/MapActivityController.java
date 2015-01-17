@@ -1,4 +1,4 @@
-package epsz.gpsalarm;
+package epsz.gpsalarm.mapactivty;
 
 import com.google.android.gms.maps.model.LatLng;
 

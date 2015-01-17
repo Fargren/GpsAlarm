@@ -1,4 +1,4 @@
-package epsz.gpsalarm;
+package epsz.gpsalarm.mapactivty;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
+
+import epsz.gpsalarm.GoogleMapAdapter;
+import epsz.gpsalarm.MapApplication;
+import epsz.gpsalarm.R;
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback {
 

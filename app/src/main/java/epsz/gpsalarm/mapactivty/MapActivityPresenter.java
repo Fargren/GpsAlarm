@@ -1,4 +1,4 @@
-package epsz.gpsalarm;
+package epsz.gpsalarm.mapactivty;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -8,6 +8,7 @@ import java.util.List;
 import epsz.alarmapp.Alarm;
 import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Presenter;
+import epsz.gpsalarm.Map;
 
 public class MapActivityPresenter implements Presenter {
 

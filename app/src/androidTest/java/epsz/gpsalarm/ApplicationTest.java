@@ -6,10 +6,10 @@ import android.test.ApplicationTestCase;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.unitils.reflectionassert.ReflectionAssert;
-
 import epsz.alarmapp.Interactors.AlarmAdder;
 import epsz.alarmapp.Interactors.GeoCircle;
+import epsz.gpsalarm.mapactivty.MapActivityController;
+import epsz.gpsalarm.mapactivty.MapActivityPresenter;
 
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
