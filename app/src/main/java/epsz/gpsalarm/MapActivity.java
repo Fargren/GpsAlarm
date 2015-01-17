@@ -8,7 +8,11 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback{
+public class MapActivity extends ActionBarActivity implements OnMapReadyCallback {
+
+    GoogleMap map;
+    private MapActivityController controller;
+    private MapActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +21,29 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+        this.map = map;
+
+        this.controller = new MapActivityController();
+        this.controller.addAlarmInteractor = MapApplication.getInstance().getInteractors().getAddAlarmInteractor();
+
+        this.presenter = new MapActivityPresenter(new GoogleMapAdapter(map));
+        MapApplication.getInstance().getInteractors().getAddAlarmInteractor().setPresenter(presenter);
+
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                controller.addAlarmAtLocation(latLng, 100000);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,13 +65,5 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Marker"));
-
     }
 }

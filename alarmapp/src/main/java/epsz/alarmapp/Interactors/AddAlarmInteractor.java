@@ -11,7 +11,7 @@ import epsz.alarmapp.requests.HourTime;
 /**
  * Created by Martin on 12/27/2014.
  */
-public class AddAlarmInteractor {
+public class AddAlarmInteractor implements AlarmAdder {
     private Presenter presenter;
     private List<Alarm> alarms;
 

@@ -3,12 +3,13 @@ package epsz.gpsalarm;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+
 import org.unitils.reflectionassert.ReflectionAssert;
 
-import epsz.alarmapp.Interactors.AddAlarmInteractor;
 import epsz.alarmapp.Interactors.AlarmAdder;
 import epsz.alarmapp.Interactors.GeoCircle;
-import epsz.alarmapp.Interactors.Interactors;
 
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
@@ -28,6 +29,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertReflectionEquals(adder.lastAlarmArea, new GeoCircle(10, -10, 1));
     }
 
+    public void test_presentAddAlarmAtLocation_presentsAlarm() {
+        FakeMap mockMap = new FakeMap();
+        MapActivityPresenter presenter = new MapActivityPresenter(mockMap);
+        presenter.addAlarmAtLocation(new GeoCircle(10, -10, 1));
+        assertReflectionEquals(mockMap.options.getCenter(), new LatLng(10, -10));
+        assertEquals(mockMap.options.getRadius(), 1.0);
+    }
+
     private class MockAlarmAdder implements AlarmAdder {
         public GeoCircle lastAlarmArea;
 
@@ -35,5 +44,16 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         public void addAlarmAtLocation(GeoCircle area){
             lastAlarmArea = area;
         }
+    }
+
+
+    private class FakeMap implements Map {
+        CircleOptions options;
+
+        @Override
+        public void addAlarmCircle(CircleOptions options) {
+            this.options = options;
+        }
+
     }
 }
