@@ -10,27 +10,31 @@ public class Interactors {
     private UpdateStateInteractor updateInteractor;
     public StopAlarmInteractor stopAlarmInteractor;
 
-    public Interactors() {
-        ArrayList<Alarm> alarms = new ArrayList<>();
-        createAddAlarmInteractor(alarms);
-        createShowAlarmsInteractor(alarms);
-        createUpdateStateInteractor(alarms);
+    private DataStore dataStore;
+
+    private ArrayList<Interactor> interactors;
+
+    public Interactors(DataStore dataStore) {
+        this.dataStore = dataStore;
+
+        interactors = new ArrayList<>();
+        createAddAlarmInteractor();
+        createAddAlarmInteractor();
+        createShowAlarmsInteractor();
+        createUpdateStateInteractor();
         this.stopAlarmInteractor = new StopAlarmInteractor();
     }
 
-    private void createUpdateStateInteractor(ArrayList<Alarm> alarms) {
-        this.updateInteractor = new UpdateStateInteractor(alarms);
+    private void createUpdateStateInteractor() {
+        this.updateInteractor = new UpdateStateInteractor(dataStore);
     }
 
-    private void createAddAlarmInteractor(ArrayList<Alarm> alarms) {
-        AddAlarmInteractor interactor = new AddAlarmInteractor();
-        this.addAlarmInteractor = interactor;
+    private void createAddAlarmInteractor() {
+        this.addAlarmInteractor = new AddAlarmInteractor(dataStore);
     }
 
-    private void createShowAlarmsInteractor(ArrayList<Alarm> alarms) {
-        ShowAlarmsInteractor interactor = new ShowAlarmsInteractor();
-        interactor.setAlarms(alarms);
-        this.showAlarmInteractor = interactor;
+    private void createShowAlarmsInteractor() {
+        this.showAlarmInteractor = new ShowAlarmsInteractor(dataStore);
     }
 
     public AddAlarmInteractor getAddAlarmInteractor() {

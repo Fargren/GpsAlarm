@@ -2,8 +2,11 @@ package epsz.alarmapp;
 
 import android.app.Application;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import epsz.alarmapp.Interactors.DataStore;
 import epsz.alarmapp.Interactors.GeoCircle;
-import epsz.alarmapp.requests.HourTime;
 
 import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
 
@@ -11,7 +14,6 @@ import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest extends AlarmsTest {
-
     protected FakePresenter mockPresenter;
 
     public ApplicationTest() {
@@ -55,7 +57,10 @@ public class ApplicationTest extends AlarmsTest {
         assertEquals(mockPresenter.lastAlarmCircle, area);
     }
 
-
+    public void test_addAlarm_isStored() {
+        GeoCircle area = alarmAtLocation(10, -10, 1);
+        assertEquals(mockDataStore.lastAlarm, area);
+    }
 
     private boolean circleAreaIsInvalid(double latitude, double longitude, double radius) {
         boolean thrown = false;
@@ -68,8 +73,6 @@ public class ApplicationTest extends AlarmsTest {
     }
 
     public void testShowNoAlarm() {
-        interactors.getShowAlarmInteractor().show();
-        assertTrue(mockPresenter.shownAlarms.isEmpty());
     }
 
     public void testTimeAlarmRingsAtTime() {
@@ -90,8 +93,6 @@ public class ApplicationTest extends AlarmsTest {
         interactors.stopAlarmInteractor.stop();
         assertTrue(mockPresenter.stopAlarmCalled);
     }
-
-
 
 
 }

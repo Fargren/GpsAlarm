@@ -1,27 +1,17 @@
 package epsz.alarmapp.Interactors;
 
-import java.util.ArrayList;
-
-import epsz.alarmapp.Alarm;
-import epsz.alarmapp.Presenter;
+import epsz.alarmapp.LocationTrigger;
 import epsz.alarmapp.Trigger;
 
-public class UpdateStateInteractor {
+public class UpdateStateInteractor extends Interactor {
 
-    private final ArrayList<Alarm> alarms;
-    private Presenter presenter;
-
-    public UpdateStateInteractor(ArrayList<Alarm> alarms) {
-        this.alarms = alarms;
+    public UpdateStateInteractor(DataStore dataStore) {
+        super(dataStore);
     }
 
     public void updateTo(Trigger activeTrigger) {
-        for (Trigger trigger : AddAlarmInteractor.triggers)
-            if (activeTrigger.matches(trigger))
+        for (GeoCircle area : dataStore.getAlarms())
+            if (activeTrigger.matches(new LocationTrigger(area)))
                 presenter.ringAlarm();
-    }
-
-    public void setPresenter(Presenter presenter) {
-        this.presenter = presenter;
     }
 }

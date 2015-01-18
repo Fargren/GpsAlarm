@@ -20,6 +20,6 @@ public class MapApplication extends Application {
     public MapApplication() {
         instance = this;
 
-        this.interactors =  new Interactors();
+        this.interactors =  new Interactors(new ListDataStore());
     }
 }

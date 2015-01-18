@@ -5,16 +5,15 @@ import java.util.List;
 import epsz.alarmapp.Alarm;
 import epsz.alarmapp.Presenter;
 
-public class ShowAlarmsInteractor {
-    private Presenter presenter;
+public class ShowAlarmsInteractor extends Interactor {
     private List<Alarm> alarms;
 
-    ShowAlarmsInteractor() {
-
+    public ShowAlarmsInteractor(DataStore dataStore) {
+        super(dataStore);
     }
 
     public void show() {
-        this.presenter.showAlarms(alarms);
+        //this.presenter.showAlarms(alarms);
     }
 
     public void setAlarms(List<Alarm> alarms) {

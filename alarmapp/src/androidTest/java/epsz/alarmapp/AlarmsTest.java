@@ -3,14 +3,17 @@ package epsz.alarmapp;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import epsz.alarmapp.Interactors.DataStore;
 import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Interactors.Interactors;
 import epsz.alarmapp.requests.HourTime;
 
 public class AlarmsTest extends ApplicationTestCase<Application> {
     protected Interactors interactors;
+    protected FakeDataStore mockDataStore;
 
     public AlarmsTest(Class<Application> applicationClass) {
         super(applicationClass);
@@ -37,7 +40,8 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        interactors = new Interactors();
+        mockDataStore =  new FakeDataStore();
+        interactors = new Interactors(mockDataStore);
     }
 
     protected GeoCircle alarmAtLocation(double latitude, double longitude, double radius) {
@@ -79,5 +83,24 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         }
 
 
+    }
+
+    protected class FakeDataStore implements DataStore {
+        public GeoCircle lastAlarm;
+        public ArrayList<GeoCircle> alarms;
+
+        @Override
+        public void addAlarm(GeoCircle area) {
+            lastAlarm = area;
+
+            if (alarms == null)
+                alarms =  new ArrayList<>();
+            alarms.add(area);
+        }
+
+        @Override
+        public List<GeoCircle> getAlarms() {
+            return alarms;
+        }
     }
 }

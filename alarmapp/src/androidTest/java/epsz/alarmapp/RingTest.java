@@ -21,7 +21,6 @@ public class RingTest extends AlarmsTest {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        AddAlarmInteractor.triggers = null;
     }
 
     public void test_updateToNullLocation_doesNotRing() {
