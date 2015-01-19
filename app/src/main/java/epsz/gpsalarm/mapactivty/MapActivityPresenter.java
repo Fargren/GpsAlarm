@@ -1,5 +1,8 @@
 package epsz.gpsalarm.mapactivty;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -9,6 +12,7 @@ import epsz.alarmapp.Alarm;
 import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Presenter;
 import epsz.gpsalarm.Map;
+import epsz.gpsalarm.MapApplication;
 
 public class MapActivityPresenter implements Presenter {
 
@@ -27,6 +31,8 @@ public class MapActivityPresenter implements Presenter {
 
     @Override
     public void ringAlarm() {
+        Context context = MapApplication.getInstance().getBaseContext();
+        Toast.makeText(context, "Alarm!", Toast.LENGTH_LONG).show();
     }
 
     @Override

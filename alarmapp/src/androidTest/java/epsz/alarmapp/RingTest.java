@@ -3,6 +3,7 @@ package epsz.alarmapp;
 import android.app.Application;
 
 import epsz.alarmapp.Interactors.AddAlarmInteractor;
+import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.requests.HourTime;
 
 public class RingTest extends AlarmsTest {
@@ -59,13 +60,13 @@ public class RingTest extends AlarmsTest {
     }
 
     private void updateLocationTo(double latitude, double longitude, double radius) {
-        LocationTrigger activeTrigger = new LocationTrigger(latitude, longitude, radius);
-        interactors.getUpdateInteractor().updateTo(activeTrigger);
+        GeoCircle area = new GeoCircle(latitude, longitude, radius);
+        interactors.getUpdateInteractor().updateTo(area);
     }
 
     private void updateTimeTo(int hour, int minutes) {
-        HourTime time = new HourTime(hour, minutes);
+        /*HourTime time = new HourTime(hour, minutes);
         TimeTrigger activeTrigger = new TimeTrigger(time);
-        interactors.getUpdateInteractor().updateTo(activeTrigger);
+        interactors.getUpdateInteractor().updateTo(activeTrigger);*/
     }
 }
