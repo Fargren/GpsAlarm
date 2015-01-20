@@ -15,20 +15,21 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
-import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Interactors.Interactors;
 import epsz.gpsalarm.GoogleMapAdapter;
 import epsz.gpsalarm.MapApplication;
+import epsz.gpsalarm.PositionTracker;
 import epsz.gpsalarm.R;
 
 import static com.google.android.gms.common.api.GoogleApiClient.*;
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class MapActivity extends ActionBarActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
     GoogleMap map;
     private MapActivityController controller;
     private GoogleApiClient googleApiClient;
+    private PositionTracker tracker;
 
     private Interactors getInteractors() {
         return MapApplication.getInstance().getInteractors();
@@ -42,16 +43,24 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        googleApiClient = new GoogleApiClient.Builder(this)
+        setupControllers();
+        setupTracker();
+    }
+
+    private void setupTracker() {
+        tracker = new PositionTracker(controller);
+
+        googleApiClient = new Builder(this)
                 .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
+                .addConnectionCallbacks(tracker)
+                .addOnConnectionFailedListener(tracker)
                 .build();
+
+        tracker.setGoogleApiClient(googleApiClient);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        setupControllers();
         setupPresenters(map);
 
         this.map = map;
@@ -70,7 +79,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     private void setupPresenters(GoogleMap map) {
-        MapActivityPresenter presenter = new MapActivityPresenter(new GoogleMapAdapter(map));
+        MapActivityPresenter presenter = new MapActivityPresenter(new GoogleMapAdapter(map), new ToastRinger());
         getInteractors().getAddAlarmInteractor().setPresenter(presenter);
         getInteractors().getUpdateInteractor().setPresenter(presenter);
     }
@@ -104,28 +113,5 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(1000); // Update location every second
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                googleApiClient, locationRequest, this);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "GoogleApiClient connection has been suspend");
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i(TAG, "GoogleApiClient connection has failed");
-    }
-
-    @Override
-    public void onLocationChanged(Location loc) {
-        controller.updateToLocation(loc.getLatitude(), loc.getLongitude(), loc.getAccuracy());
-    }
 }

@@ -7,15 +7,14 @@ import epsz.alarmapp.Interactors.DataStore;
 import epsz.alarmapp.Interactors.GeoCircle;
 
 public class ListDataStore implements DataStore {
-    public GeoCircle lastAlarm;
-    public ArrayList<GeoCircle> alarms;
+    private ArrayList<GeoCircle> alarms;
+
+    public ListDataStore() {
+        alarms =  new ArrayList<>();
+    }
 
     @Override
     public void addAlarm(GeoCircle area) {
-        lastAlarm = area;
-
-        if (alarms == null)
-            alarms =  new ArrayList<>();
         alarms.add(area);
     }
 

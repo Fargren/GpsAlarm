@@ -32,7 +32,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void test_presentAddAlarmAtLocation_presentsAlarm() {
         FakeMap mockMap = new FakeMap();
-        MapActivityPresenter presenter = new MapActivityPresenter(mockMap);
+        MapActivityPresenter presenter = new MapActivityPresenter(mockMap, null);
         presenter.addAlarmAtLocation(new GeoCircle(10, -10, 1));
         assertReflectionEquals(mockMap.options.getCenter(), new LatLng(10, -10));
         assertEquals(mockMap.options.getRadius(), 1.0);
@@ -44,6 +44,13 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         controller.updateStateInteractor = mockLocationUpdater;
         controller.updateToLocation(10.0, -10.0, 1.0);
         assertReflectionEquals(mockLocationUpdater.lastUpdateArea, new GeoCircle(10, -10, 1));
+    }
+
+    public void test_presentRingAlarm_presentsRing() {
+        FakeRinger mockRinger = new FakeRinger();
+        MapActivityPresenter presenter = new MapActivityPresenter(null, mockRinger);
+        presenter.ringAlarm();
+        assertTrue(mockRinger.rang);
     }
 
     private class FakeController implements AlarmAdder, LocationUpdater {
@@ -70,5 +77,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             this.options = options;
         }
 
+    }
+
+    private class FakeRinger implements Ringer {
+        boolean rang;
+
+        @Override
+        public void ring() {
+            rang = true;
+        }
     }
 }

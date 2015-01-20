@@ -13,13 +13,16 @@ import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Presenter;
 import epsz.gpsalarm.Map;
 import epsz.gpsalarm.MapApplication;
+import epsz.gpsalarm.Ringer;
 
 public class MapActivityPresenter implements Presenter {
 
     private Map map;
+    private Ringer ringer;
 
-    public MapActivityPresenter(Map map) {
+    public MapActivityPresenter(Map map, Ringer ringer) {
         this.map = map;
+        this.ringer = ringer;
     }
 
     @Override
@@ -31,8 +34,7 @@ public class MapActivityPresenter implements Presenter {
 
     @Override
     public void ringAlarm() {
-        Context context = MapApplication.getInstance().getBaseContext();
-        Toast.makeText(context, "Alarm!", Toast.LENGTH_LONG).show();
+        ringer.ring();
     }
 
     @Override
