@@ -34,7 +34,7 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         interactors.getAddAlarmInteractor().setPresenter(presenter);
         interactors.getShowAlarmInteractor().setPresenter(presenter);
         interactors.getUpdateInteractor().setPresenter(presenter);
-        interactors.stopAlarmInteractor.setPresenter(presenter);
+        interactors.getStopAlarmInteractor().setPresenter(presenter);
     }
 
     @Override

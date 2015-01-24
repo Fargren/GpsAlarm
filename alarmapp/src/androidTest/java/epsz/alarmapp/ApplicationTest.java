@@ -89,8 +89,8 @@ public class ApplicationTest extends AlarmsTest {
         assertFalse(mockPresenter.ringAlarmCalled);*/
     }
 
-    public void testStopAlarm() {
-        interactors.stopAlarmInteractor.stop();
+    public void test_stopAlarm_stopsAlarm() {
+        interactors.getStopAlarmInteractor().stop();
         assertTrue(mockPresenter.stopAlarmCalled);
     }
 

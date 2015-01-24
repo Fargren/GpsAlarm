@@ -8,10 +8,11 @@ import epsz.alarmapp.LocationTrigger;
 
 public class Interactors {
     private final List<Alarm> alarms;
+
     private AddAlarmInteractor addAlarmInteractor;
     private ShowAlarmsInteractor showAlarmInteractor;
     private UpdateStateInteractor updateInteractor;
-    public StopAlarmInteractor stopAlarmInteractor;
+    private StopAlarmInteractor stopAlarmInteractor;
 
     private DataStore dataStore;
 
@@ -53,5 +54,9 @@ public class Interactors {
 
     public UpdateStateInteractor getUpdateInteractor() {
         return updateInteractor;
+    }
+
+    public StopAlarmInteractor getStopAlarmInteractor() {
+        return stopAlarmInteractor;
     }
 }
