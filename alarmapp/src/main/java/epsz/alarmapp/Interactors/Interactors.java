@@ -1,10 +1,13 @@
 package epsz.alarmapp.Interactors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import epsz.alarmapp.Alarm;
+import epsz.alarmapp.LocationTrigger;
 
 public class Interactors {
+    private final List<Alarm> alarms;
     private AddAlarmInteractor addAlarmInteractor;
     private ShowAlarmsInteractor showAlarmInteractor;
     private UpdateStateInteractor updateInteractor;
@@ -12,12 +15,13 @@ public class Interactors {
 
     private DataStore dataStore;
 
-    private ArrayList<Interactor> interactors;
-
     public Interactors(DataStore dataStore) {
         this.dataStore = dataStore;
 
-        interactors = new ArrayList<>();
+        alarms = new ArrayList<>();
+        for (GeoCircle area : dataStore.getAlarms())
+            alarms.add(Alarm.createWithTrigger(new LocationTrigger(area)));
+
         createAddAlarmInteractor();
         createAddAlarmInteractor();
         createShowAlarmsInteractor();
@@ -27,10 +31,12 @@ public class Interactors {
 
     private void createUpdateStateInteractor() {
         this.updateInteractor = new UpdateStateInteractor(dataStore);
+        this.updateInteractor.setAlarms(alarms);
     }
 
     private void createAddAlarmInteractor() {
         this.addAlarmInteractor = new AddAlarmInteractor(dataStore);
+        this.addAlarmInteractor.setAlarms(alarms);
     }
 
     private void createShowAlarmsInteractor() {

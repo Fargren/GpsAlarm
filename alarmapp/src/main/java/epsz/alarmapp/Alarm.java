@@ -1,6 +1,13 @@
 package epsz.alarmapp;
 
 public class Alarm {
+
+    public static Alarm createWithTrigger(Trigger trigger) {
+        Alarm alarm = new Alarm();
+        alarm.passiveTrigger = trigger;
+        return alarm;
+    }
+
     Trigger passiveTrigger;
     public boolean isRinging;
 

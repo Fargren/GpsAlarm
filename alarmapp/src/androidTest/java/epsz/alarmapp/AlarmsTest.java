@@ -51,15 +51,15 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
     }
 
     protected class FakePresenter implements Presenter {
-        public boolean ringAlarmCalled;
         public Alarm addedAlarm;
         public List<Alarm> shownAlarms;
         public boolean stopAlarmCalled;
         public GeoCircle lastAlarmCircle;
+        public int alarmRingCount;
 
         @Override
         public void ringAlarm() {
-            ringAlarmCalled = true;
+            alarmRingCount++;
         }
 
         @Override
@@ -89,12 +89,14 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         public GeoCircle lastAlarm;
         public ArrayList<GeoCircle> alarms;
 
+        public FakeDataStore() {
+            alarms =  new ArrayList<>();
+        }
+
         @Override
         public void addAlarm(GeoCircle area) {
             lastAlarm = area;
 
-            if (alarms == null)
-                alarms =  new ArrayList<>();
             alarms.add(area);
         }
 

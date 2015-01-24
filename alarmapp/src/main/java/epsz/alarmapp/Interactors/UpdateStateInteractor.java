@@ -1,9 +1,16 @@
 package epsz.alarmapp.Interactors;
 
+import java.util.List;
+
+import epsz.alarmapp.Alarm;
 import epsz.alarmapp.LocationTrigger;
-import epsz.alarmapp.Trigger;
 
 public class UpdateStateInteractor extends Interactor implements LocationUpdater {
+
+    private List<Alarm> alarms;
+    public void setAlarms(List<Alarm> alarms) {
+        this.alarms = alarms;
+    }
 
     public UpdateStateInteractor(DataStore dataStore) {
         super(dataStore);
@@ -11,10 +18,18 @@ public class UpdateStateInteractor extends Interactor implements LocationUpdater
 
     @Override
     public void updateTo(GeoCircle circle) {
-        LocationTrigger trigger = new LocationTrigger(circle);
-        for (GeoCircle area : dataStore.getAlarms())
-            if (trigger.matches(new LocationTrigger(area)))
-                presenter.ringAlarm();
+        if(circle == null)
+            return;
+
+        for(Alarm alarm : alarms)
+            updateAlarm(alarm, new LocationTrigger(circle));
+    }
+
+    private void updateAlarm(Alarm alarm, LocationTrigger trigger) {
+        boolean wasRinging = alarm.isRinging;
+        alarm.updateTo(trigger);
+        if(!wasRinging && alarm.isRinging)
+            presenter.ringAlarm();
     }
 
 }

@@ -1,11 +1,9 @@
 package epsz.alarmapp.Interactors;
 
-import java.util.ArrayList;
-
-import epsz.alarmapp.Trigger;
+import java.util.List;
 
 public interface DataStore {
     void addAlarm(GeoCircle area);
 
-    java.util.List<GeoCircle> getAlarms();
+    List<GeoCircle> getAlarms();
 }
