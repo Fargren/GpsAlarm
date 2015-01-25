@@ -1,19 +1,18 @@
 package epsz.gpsalarm.mapactivty;
 
-import android.location.Location;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 
 import epsz.alarmapp.Interactors.Interactors;
 import epsz.gpsalarm.GoogleMapAdapter;
@@ -21,15 +20,13 @@ import epsz.gpsalarm.MapApplication;
 import epsz.gpsalarm.PositionTracker;
 import epsz.gpsalarm.R;
 
-import static com.google.android.gms.common.api.GoogleApiClient.*;
+import static com.google.android.gms.common.api.GoogleApiClient.Builder;
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback {
 
-    private static final String TAG = "MapActivity";
     GoogleMap map;
     private MapActivityController controller;
     private GoogleApiClient googleApiClient;
-    private PositionTracker tracker;
 
     private Interactors getInteractors() {
         return MapApplication.getInstance().getInteractors();
@@ -45,10 +42,18 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         setupControllers();
         setupTracker();
+
+        Button stopAlarmButton = (Button) this.findViewById(R.id.btnStopAlarm);
+        stopAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.stopAlarm();
+            }
+        });
     }
 
     private void setupTracker() {
-        tracker = new PositionTracker(controller);
+        PositionTracker tracker = new PositionTracker(controller);
 
         googleApiClient = new Builder(this)
                 .addApi(LocationServices.API)
@@ -76,12 +81,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         this.controller = new MapActivityController();
         this.controller.addAlarmInteractor = getInteractors().getAddAlarmInteractor();
         this.controller.updateStateInteractor = getInteractors().getUpdateInteractor();
+        this.controller.stopAlarmInteractor = getInteractors().getStopAlarmInteractor();
     }
 
     private void setupPresenters(GoogleMap map) {
         MapActivityPresenter presenter = new MapActivityPresenter(new GoogleMapAdapter(map), new ToastRinger());
         getInteractors().getAddAlarmInteractor().setPresenter(presenter);
         getInteractors().getUpdateInteractor().setPresenter(presenter);
+        getInteractors().getStopAlarmInteractor().setPresenter(presenter);
     }
 
     @Override

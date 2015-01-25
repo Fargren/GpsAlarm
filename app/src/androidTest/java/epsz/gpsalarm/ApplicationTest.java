@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
 import epsz.alarmapp.Interactors.AlarmAdder;
+import epsz.alarmapp.Interactors.AlarmStopper;
 import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Interactors.LocationUpdater;
 import epsz.gpsalarm.mapactivty.MapActivityController;
@@ -24,7 +25,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void test_addAlarm_callsUseCase() {
         MapActivityController controller = new MapActivityController();
-        FakeController mockAlarmAdder = new FakeController();
+        FakeInteractor mockAlarmAdder = new FakeInteractor();
         controller.addAlarmInteractor = mockAlarmAdder;
         controller.addAlarmAtLocation(10, -10, 1);
         assertReflectionEquals(mockAlarmAdder.lastAlarmArea, new GeoCircle(10, -10, 1));
@@ -40,7 +41,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void test_updateState_callsUseCase() {
         MapActivityController controller = new MapActivityController();
-        FakeController mockLocationUpdater = new FakeController();
+        FakeInteractor mockLocationUpdater = new FakeInteractor();
         controller.updateStateInteractor = mockLocationUpdater;
         controller.updateToLocation(10.0, -10.0, 1.0);
         assertReflectionEquals(mockLocationUpdater.lastUpdateArea, new GeoCircle(10, -10, 1));
@@ -53,9 +54,25 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertTrue(mockRinger.rang);
     }
 
-    private class FakeController implements AlarmAdder, LocationUpdater {
+    public void test_stopAlarm_callsUseCase() {
+        MapActivityController controller = new MapActivityController();
+        FakeInteractor mockAlarmStopper = new FakeInteractor();
+        controller.stopAlarmInteractor = mockAlarmStopper;
+        controller.stopAlarm();
+        assertTrue(mockAlarmStopper.alarmStopped);
+    }
+
+    public void test_stopRingAlarm_presentsStop() {
+        FakeRinger mockRinger = new FakeRinger();
+        MapActivityPresenter presenter = new MapActivityPresenter(null, mockRinger);
+        presenter.stopAlarm();
+        assertTrue(mockRinger.stopped);
+    }
+
+    private class FakeInteractor implements AlarmAdder, LocationUpdater, AlarmStopper {
         public GeoCircle lastAlarmArea;
         public GeoCircle lastUpdateArea;
+        public boolean alarmStopped;
 
         @Override
         public void addAlarmAtLocation(GeoCircle area){
@@ -65,6 +82,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         @Override
         public void updateTo(GeoCircle area){
             lastUpdateArea = area;
+        }
+
+        @Override
+        public  void stop() {
+            alarmStopped = true;
         }
     }
 
@@ -81,10 +103,16 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     private class FakeRinger implements Ringer {
         boolean rang;
+        boolean stopped;
 
         @Override
         public void ring() {
             rang = true;
+        }
+
+        @Override
+        public void stop() {
+            stopped = true;
         }
     }
 }

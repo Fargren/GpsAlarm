@@ -12,4 +12,11 @@ public class ToastRinger implements Ringer {
         Context context = MapApplication.getInstance().getBaseContext();
         Toast.makeText(context, "Alarm!", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void stop() {
+        Context context = MapApplication.getInstance().getBaseContext();
+        Toast.makeText(context, "Stop!", Toast.LENGTH_LONG).show();
+
+    }
 }

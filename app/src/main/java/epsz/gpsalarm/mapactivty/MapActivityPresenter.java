@@ -49,6 +49,6 @@ public class MapActivityPresenter implements Presenter {
 
     @Override
     public void stopAlarm() {
-
+        ringer.stop();
     }
 }
