@@ -2,8 +2,12 @@ package epsz.alarmapp.Interactors;
 
 import epsz.alarmapp.Presenter;
 
-public class StopAlarmInteractor implements AlarmStopper {
+public class StopAlarmInteractor extends Interactor implements AlarmStopper {
     private Presenter presenter;
+
+    public StopAlarmInteractor(DataStore dataStore) {
+        super(dataStore);
+    }
 
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;

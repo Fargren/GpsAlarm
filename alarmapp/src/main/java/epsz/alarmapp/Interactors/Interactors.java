@@ -27,7 +27,7 @@ public class Interactors {
         createAddAlarmInteractor();
         createShowAlarmsInteractor();
         createUpdateStateInteractor();
-        this.stopAlarmInteractor = new StopAlarmInteractor();
+        this.stopAlarmInteractor = new StopAlarmInteractor(dataStore);
     }
 
     private void createUpdateStateInteractor() {
