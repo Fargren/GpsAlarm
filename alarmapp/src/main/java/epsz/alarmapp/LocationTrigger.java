@@ -1,7 +1,5 @@
 package epsz.alarmapp;
 
-import epsz.alarmapp.Interactors.GeoCircle;
-
 public class LocationTrigger extends Trigger {
     private final double latitude;
     private final double longitude;

@@ -2,12 +2,6 @@ package epsz.alarmapp;
 
 import android.app.Application;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import epsz.alarmapp.Interactors.DataStore;
-import epsz.alarmapp.Interactors.GeoCircle;
-
 import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
 
 /**

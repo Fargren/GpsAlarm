@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import epsz.alarmapp.Interactors.DataStore;
-import epsz.alarmapp.Interactors.GeoCircle;
 import epsz.alarmapp.Interactors.Interactors;
 import epsz.alarmapp.requests.HourTime;
 

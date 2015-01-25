@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import epsz.alarmapp.Interactors.AlarmAdder;
 import epsz.alarmapp.Interactors.AlarmStopper;
-import epsz.alarmapp.Interactors.GeoCircle;
+import epsz.alarmapp.GeoCircle;
 import epsz.alarmapp.Interactors.LocationUpdater;
 
 public class MapActivityController {

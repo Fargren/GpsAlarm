@@ -1,4 +1,4 @@
-package epsz.alarmapp.Interactors;
+package epsz.alarmapp;
 
 import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
 

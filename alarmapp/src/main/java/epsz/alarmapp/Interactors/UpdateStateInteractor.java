@@ -3,6 +3,7 @@ package epsz.alarmapp.Interactors;
 import java.util.List;
 
 import epsz.alarmapp.Alarm;
+import epsz.alarmapp.GeoCircle;
 import epsz.alarmapp.LocationTrigger;
 
 public class UpdateStateInteractor extends Interactor implements LocationUpdater {

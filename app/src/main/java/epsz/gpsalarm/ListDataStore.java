@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import epsz.alarmapp.Interactors.DataStore;
-import epsz.alarmapp.Interactors.GeoCircle;
+import epsz.alarmapp.GeoCircle;
 
 public class ListDataStore implements DataStore {
     private ArrayList<GeoCircle> alarms;

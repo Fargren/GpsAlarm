@@ -2,8 +2,6 @@ package epsz.alarmapp;
 
 import android.app.Application;
 
-import epsz.alarmapp.Interactors.GeoCircle;
-import epsz.alarmapp.Interactors.Interactor;
 import epsz.alarmapp.Interactors.Interactors;
 
 public class RingTest extends AlarmsTest {

@@ -36,13 +36,15 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
         setupControllers();
         setupTracker();
 
+        initMap();
+        initStopAlarmButton();
+    }
+
+    private void initStopAlarmButton() {
         Button stopAlarmButton = (Button) this.findViewById(R.id.btnStopAlarm);
         stopAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +52,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 controller.stopAlarm();
             }
         });
+    }
+
+    private void initMap() {
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void setupTracker() {

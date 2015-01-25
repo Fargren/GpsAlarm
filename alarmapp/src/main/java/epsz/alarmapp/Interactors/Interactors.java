@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import epsz.alarmapp.Alarm;
+import epsz.alarmapp.GeoCircle;
 import epsz.alarmapp.LocationTrigger;
 
 public class Interactors {
