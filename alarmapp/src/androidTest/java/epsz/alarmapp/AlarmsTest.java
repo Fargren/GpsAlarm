@@ -13,6 +13,7 @@ import epsz.alarmapp.requests.HourTime;
 public class AlarmsTest extends ApplicationTestCase<Application> {
     protected Interactors interactors;
     protected FakeDataStore mockDataStore;
+    protected FakePresenter mockPresenter;
 
     public AlarmsTest(Class<Application> applicationClass) {
         super(applicationClass);
@@ -21,12 +22,6 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
     protected void createAlarmAtTime(int hour, int minutes) {
         HourTime time = new HourTime(hour, minutes);
         interactors.getAddAlarmInteractor().addAlarmAtTime(time);
-    }
-
-    protected FakePresenter getFakePresenter() {
-        FakePresenter presenter = new FakePresenter();
-        preparePresenters(presenter);
-        return presenter;
     }
 
     private void preparePresenters(FakePresenter presenter) {
@@ -41,6 +36,8 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         super.setUp();
         mockDataStore =  new FakeDataStore();
         interactors = new Interactors(mockDataStore);
+        mockPresenter = new FakePresenter();
+        preparePresenters(mockPresenter);
     }
 
     protected GeoCircle alarmAtLocation(double latitude, double longitude, double radius) {
@@ -51,7 +48,7 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
 
     protected class FakePresenter implements Presenter {
         public Alarm addedAlarm;
-        public List<Alarm> shownAlarms;
+        public List<GeoCircle> shownAlarms;
         public boolean stopAlarmCalled;
         public GeoCircle lastAlarmCircle;
         public int alarmRingCount;
@@ -67,12 +64,7 @@ public class AlarmsTest extends ApplicationTestCase<Application> {
         }
 
         @Override
-        public void addAlarm(Alarm alarm) {
-            addedAlarm = alarm;
-        }
-
-        @Override
-        public void showAlarms(List<Alarm> alarms) {
+        public void showAlarms(List<GeoCircle> alarms) {
             shownAlarms = alarms;
         }
 

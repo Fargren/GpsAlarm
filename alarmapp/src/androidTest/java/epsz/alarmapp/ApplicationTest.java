@@ -8,8 +8,6 @@ import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest extends AlarmsTest {
-    protected FakePresenter mockPresenter;
-
     public ApplicationTest() {
         super(Application.class);
     }
@@ -17,7 +15,6 @@ public class ApplicationTest extends AlarmsTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mockPresenter = getFakePresenter();
     }
 
     public void test_addNullAlarmAtLocation_isntShown() {

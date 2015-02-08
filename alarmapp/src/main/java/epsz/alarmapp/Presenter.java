@@ -8,9 +8,7 @@ public interface Presenter {
 
     void addAlarmAtLocation(GeoCircle location);
 
-    void addAlarm(Alarm alarm);
-
-    void showAlarms(List<Alarm> alarms);
+    void showAlarms(List<GeoCircle> alarms);
 
     void stopAlarm();
 }
