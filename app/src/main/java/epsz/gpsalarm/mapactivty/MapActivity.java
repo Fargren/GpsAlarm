@@ -83,6 +83,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 controller.addAlarmAtLocation(latLng, 100000);
             }
         });
+
+        controller.refreshShownAlarms();
     }
 
     private void setupControllers() {
@@ -90,6 +92,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         this.controller.addAlarmInteractor = getInteractors().getAddAlarmInteractor();
         this.controller.updateStateInteractor = getInteractors().getUpdateInteractor();
         this.controller.stopAlarmInteractor = getInteractors().getStopAlarmInteractor();
+        this.controller.showAlarmsInteractor = getInteractors().getShowAlarmInteractor();
     }
 
     private void setupPresenters(GoogleMap map) {
@@ -97,6 +100,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         getInteractors().getAddAlarmInteractor().setPresenter(presenter);
         getInteractors().getUpdateInteractor().setPresenter(presenter);
         getInteractors().getStopAlarmInteractor().setPresenter(presenter);
+        getInteractors().getShowAlarmInteractor().setPresenter(presenter);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package epsz.alarmapp;
 
-import android.app.Application;
-
 import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
 
 /**
@@ -9,7 +7,7 @@ import static epsz.alarmapp.LocationTrigger.InvalidGeoAreaException;
  */
 public class ApplicationTest extends AlarmsTest {
     public ApplicationTest() {
-        super(Application.class);
+        super();
     }
 
     @Override

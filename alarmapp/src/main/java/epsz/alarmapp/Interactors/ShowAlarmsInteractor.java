@@ -1,6 +1,6 @@
 package epsz.alarmapp.Interactors;
 
-public class ShowAlarmsInteractor extends Interactor {
+public class ShowAlarmsInteractor extends Interactor implements AlarmDisplayer{
     public ShowAlarmsInteractor(DataStore dataStore) {
         super(dataStore);
     }

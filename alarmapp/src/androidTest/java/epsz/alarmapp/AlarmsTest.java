@@ -1,7 +1,6 @@
 package epsz.alarmapp;
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
+import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +9,11 @@ import epsz.alarmapp.Interactors.DataStore;
 import epsz.alarmapp.Interactors.Interactors;
 import epsz.alarmapp.requests.HourTime;
 
-public class AlarmsTest extends ApplicationTestCase<Application> {
+public class AlarmsTest extends TestCase {
     protected Interactors interactors;
     protected FakeDataStore mockDataStore;
     protected FakePresenter mockPresenter;
 
-    public AlarmsTest(Class<Application> applicationClass) {
-        super(applicationClass);
-    }
 
     protected void createAlarmAtTime(int hour, int minutes) {
         HourTime time = new HourTime(hour, minutes);

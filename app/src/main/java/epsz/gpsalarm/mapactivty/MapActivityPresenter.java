@@ -29,19 +29,17 @@ public class MapActivityPresenter implements Presenter {
     }
 
     @Override
+    public void showAlarms(List<GeoCircle> alarms) {
+        for (GeoCircle alarm : alarms)
+            addAlarmAtLocation(alarm);
+    }
+
+    @Override
     public void ringAlarm() {
         ringer.ring();
     }
 
-    @Override
-    public void addAlarm(Alarm alarm) {
 
-    }
-
-    @Override
-    public void showAlarms(List<Alarm> alarms) {
-
-    }
 
     @Override
     public void stopAlarm() {

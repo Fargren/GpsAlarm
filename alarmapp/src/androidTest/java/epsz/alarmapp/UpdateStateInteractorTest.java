@@ -7,7 +7,7 @@ import epsz.alarmapp.Interactors.Interactors;
 public class UpdateStateInteractorTest extends AlarmsTest {
 
     public UpdateStateInteractorTest() {
-        super(Application.class);
+        super();
     }
 
     @Override

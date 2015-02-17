@@ -8,7 +8,7 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 
 public class ShowAlarmsInteractorsTest extends AlarmsTest {
     public ShowAlarmsInteractorsTest() {
-        super(Application.class);
+        super();
     }
 
     @Override

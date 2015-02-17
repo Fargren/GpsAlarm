@@ -6,7 +6,10 @@ import android.test.ApplicationTestCase;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import epsz.alarmapp.Interactors.AlarmAdder;
+import epsz.alarmapp.Interactors.AlarmDisplayer;
 import epsz.alarmapp.Interactors.AlarmStopper;
 import epsz.alarmapp.GeoCircle;
 import epsz.alarmapp.Interactors.LocationUpdater;
@@ -35,8 +38,9 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         FakeMap mockMap = new FakeMap();
         MapActivityPresenter presenter = new MapActivityPresenter(mockMap, null);
         presenter.addAlarmAtLocation(new GeoCircle(10, -10, 1));
-        assertReflectionEquals(mockMap.options.getCenter(), new LatLng(10, -10));
-        assertEquals(mockMap.options.getRadius(), 1.0);
+        assertEquals(1, mockMap.options.size());
+        assertReflectionEquals(mockMap.options.get(0).getCenter(), new LatLng(10, -10));
+        assertEquals(mockMap.options.get(0).getRadius(), 1.0);
     }
 
     public void test_updateState_callsUseCase() {
@@ -69,10 +73,33 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertTrue(mockRinger.stopped);
     }
 
-    private class FakeInteractor implements AlarmAdder, LocationUpdater, AlarmStopper {
+    public void test_showAlarms_callsUseCase() {
+        MapActivityController controller = new MapActivityController();
+        FakeInteractor mockAlarmShower = new FakeInteractor();
+        controller.showAlarmsInteractor = mockAlarmShower;
+        controller.refreshShownAlarms();
+        assertTrue(mockAlarmShower.alarmsShown);
+    }
+
+    public void test_showAlarms_presentsAlarms() {
+        FakeMap mockMap = new FakeMap();
+        MapActivityPresenter presenter = new MapActivityPresenter(mockMap, null);
+        ArrayList<GeoCircle> alarms = new ArrayList<>();
+        alarms.add(new GeoCircle(10, -10, 1));
+        alarms.add(new GeoCircle(20, -20, 2));
+        presenter.showAlarms(alarms);
+        assertEquals(2, mockMap.options.size());
+        assertReflectionEquals(mockMap.options.get(0).getCenter(), new LatLng(10, -10));
+        assertEquals(mockMap.options.get(0).getRadius(), 1.0);
+        assertReflectionEquals(mockMap.options.get(1).getCenter(), new LatLng(20, -20));
+        assertEquals(mockMap.options.get(1).getRadius(), 2.0);
+    }
+
+    private class FakeInteractor implements AlarmAdder, LocationUpdater, AlarmStopper, AlarmDisplayer {
         public GeoCircle lastAlarmArea;
         public GeoCircle lastUpdateArea;
         public boolean alarmStopped;
+        public boolean alarmsShown;
 
         @Override
         public void addAlarmAtLocation(GeoCircle area){
@@ -85,18 +112,23 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         }
 
         @Override
-        public  void stop() {
+        public void stop() {
             alarmStopped = true;
+        }
+
+        @Override
+        public void show() {
+            alarmsShown = true;
         }
     }
 
 
     private class FakeMap implements Map {
-        CircleOptions options;
+        ArrayList<CircleOptions>options = new ArrayList<>();
 
         @Override
         public void addAlarmCircle(CircleOptions options) {
-            this.options = options;
+            this.options.add(options);
         }
 
     }

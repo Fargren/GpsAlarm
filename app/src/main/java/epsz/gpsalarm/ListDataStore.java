@@ -15,7 +15,8 @@ public class ListDataStore implements DataStore {
 
     @Override
     public void addAlarm(GeoCircle area) {
-        alarms.add(area);
+        if (area != null)
+            alarms.add(area);
     }
 
     @Override

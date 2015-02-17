@@ -1,12 +1,14 @@
 package epsz.gpsalarm;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import epsz.alarmapp.Interactors.Interactors;
 
 public class MapApplication extends Application {
+    public static final String STORAGE = "map_alarm_storage";
     public static MapApplication instance;
-    private final Interactors interactors;
+    private Interactors interactors;
 
     public Interactors getInteractors() {
         return interactors;
@@ -16,10 +18,16 @@ public class MapApplication extends Application {
         return instance;
     }
 
-
     public MapApplication() {
+        super();
         instance = this;
+    }
 
-        this.interactors =  new Interactors(new ListDataStore());
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        SharedPreferences prefs = getSharedPreferences(STORAGE, MODE_PRIVATE);
+        interactors =  new Interactors(new SharedPreferencesDataStore(prefs));
     }
 }
